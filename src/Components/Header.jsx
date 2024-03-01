@@ -1,10 +1,17 @@
 import React from 'react'
 import logo from '../Images/logo.png'
 import { FaCartArrowDown } from "react-icons/fa";
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Header() {
 
-    const menuList = ["Home", "ABOUT", "BLOG", "SHOP"]
+    const menuList = [
+        { label: "Home", link: "/" },
+        { label: "ABOUT", link: "/about" },
+        { label: "BLOG", link: "/blog" },
+        { label: "SHOP", link: "/shop" }
+    ];
+
     return (
         <div className='flex flex-row justify-between bg-white mx-8 py-3 px-3 rounded-3xl'>
             <div className='flex flex-row items-center'>
@@ -13,10 +20,22 @@ export default function Header() {
                 </div>
                 <div className='ms-5 flex flex-row'>
                     {
-                        menuList.map((item, index) => {
-                            return <h3 key={index} className='ms-3 text-sm font-medium hover:text-primary-red cursor-pointer  hover:duration-300'>{item.toUpperCase()}</h3>
+                        menuList.map(({ label, link }, index) => {
+                            return (
+                                <NavLink
+                                    key={index}
+                                    className={({ isActive }) => {
+                                        return ` ms-3 text-sm font-medium hover:text-primary-red cursor-pointer  hover:duration-300 ${isActive ? "text-red-500" : "text-black"}`
+                                    }}
+                                    to={link}
+                                >
+                                    {label.toUpperCase()}
+                                </NavLink>
+                            );
                         })
+
                     }
+                
 
                 </div>
             </div>
@@ -26,7 +45,7 @@ export default function Header() {
                     <h3 className='text-primary-red font-semibold cursor-pointer text-xl '>1-800-700-600</h3>
                 </div>
                 <div className='bg-card-bg w-10 h-10 rounded-full me-4 flex flex-row justify-center items-center' >
-                    <FaCartArrowDown size={13}/>
+                    <FaCartArrowDown size={13} />
                     <span className='ms-1'>0</span>
                 </div>
                 <div className=''>

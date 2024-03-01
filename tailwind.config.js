@@ -8,7 +8,15 @@ export default {
     extend: {
       colors: {
         "primary-red": "#E84242",
-        "card-bg": "#F1F1F1"
+        "card-bg": "#F1F1F1",
+        "hero-color": "#f5e7c1"
+      },
+      fontSize: {
+        "19xl": "19rem"
+      },
+      fontFamily: {
+        lato: ["Lato"],
+        rakkas: ["Rakkas"],
       }
     },
 
