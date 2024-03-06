@@ -3,6 +3,7 @@ const routers = express.Router();
 const jwt = require("jsonwebtoken")
 const User = require("../models/User");
 const secretKey = "jawadilyasmughal"
+const bcrypt = require("bcryptjs")
 routers.post("/loginUser", async (req, res) => {
 
     let email = req.body.email;
@@ -12,15 +13,28 @@ routers.post("/loginUser", async (req, res) => {
         if (!userData) {
             return res.status(400).json({ success: false, message: " try with correct creditionals" });
         }
-        if (req.body.password !== userData.password || req.body.email !== userData.email) {
-            return res.status(400).json({ success: false, message: " try with correct creditionals email + password" });
+        const salt = await bcrypt.genSalt(10)
+        const securePassword = await bcrypt.hash(req.body.password, salt);
+        const pwdCompare = await bcrypt.compare(req.body.password, userData.password);
+        console.log(pwdCompare);
+        if (req.body.email !== userData.email) {
+            return res.status(400).json({ success: false, message: " try with correct creditionals email " });
+        }
+        if (!pwdCompare) {
+            return res.status(400).json({ success: false, message: " try with correct creditionals  password" });
         }
         else {
             console.log(userData)
-            const payload = { ...userData }
+            const payload = {
+                user: {
+                    id: userData._id
+                }
+            }
             // for jwt web token we need to things first is user some information and second is the your encryption secreate key
             const token = jwt.sign(payload, secretKey)
-            return res.status(200).json({ success: true, message: " you are logined" });
+            // console.log(token)
+            // return res.status(200).json({ success: true, message: " you are logined" });
+            return res.status(200).json({ success: true, message: " you are logined" , token : token });
         }
 
     } catch (error) {

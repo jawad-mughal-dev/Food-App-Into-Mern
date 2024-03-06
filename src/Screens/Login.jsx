@@ -16,6 +16,9 @@ function Login() {
             password: data.password,
         }).then(function (response) {
             console.log(response);
+            localStorage.setItem("authToken", response.data.token);
+            console.log(localStorage.getItem("authToken"))
+            console.log(response.token)
             naviagte("/");
 
         })

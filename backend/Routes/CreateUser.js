@@ -1,37 +1,39 @@
 const express = require("express")
 const router = express.Router()
-const { body , query, validationResult } = require('express-validator');
-
-
-const User = require("../models/User")
-router.post("/createuser", 
-
-
-[
-
-    body("password").notEmpty().withMessage("password field is required "),
-    body("email").notEmpty().isEmail().withMessage("email field is required "),
-    body("location").notEmpty().withMessage("location  field is required "),
-    body("name").notEmpty().withMessage("name field is required "),
-]
-
-
-
-, async (req, res) => {
-
-  
-    const errors = validationResult(req);
+const { body, query, validationResult } = require('express-validator');
+const bcrypt = require("bcryptjs")
  
-    if(!errors.isEmpty())
-    {
-        return res.status(400).json({ successs: false, message : "validation failed" , error : errors.array()})
-    }
+const User = require("../models/User")
+router.post("/createuser",
 
+
+    [
+
+        body("password").notEmpty().withMessage("password field is required "),
+        body("email").notEmpty().isEmail().withMessage("email field is required "),
+        body("location").notEmpty().withMessage("location  field is required "),
+        body("name").notEmpty().withMessage("name field is required "),
+    ]
+
+
+
+    , async (req, res) => {
+
+
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ successs: false, message: "validation failed", error: errors.array() })
+        };
+
+
+        const salt = await bcrypt.genSalt(10)
+        const securePassword = await bcrypt.hash(req.body.password, salt);
         try {
             await User.create({
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.password,
+                password: securePassword,
                 location: req.body.location
 
             })
@@ -42,9 +44,9 @@ router.post("/createuser",
             res.status(500).json({ success: false, messages: "New User is not  Created" })
 
         }
-   
 
-})
+
+    })
 
 
 module.exports = router;
