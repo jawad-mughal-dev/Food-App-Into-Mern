@@ -13,6 +13,8 @@ import About from './Screens/About.jsx';
 import Blog from './Screens/Blog.jsx';
 import Shop from './Screens/Shop.jsx';
 import Home from './Screens/Home.jsx';
+import Login from './Screens/Login.jsx';
+import SignUp from './Screens/SignUp.jsx';
 
 const router = createBrowserRouter(
 
@@ -22,6 +24,8 @@ const router = createBrowserRouter(
       <Route path='about' element={<About />} />
       <Route path='shop' element={<Shop />} />
       <Route path='blog' element={<Blog />} />
+      <Route path='login' element={<Login />} />
+      <Route path='signup' element={<SignUp />} />
     </Route>
   )
 

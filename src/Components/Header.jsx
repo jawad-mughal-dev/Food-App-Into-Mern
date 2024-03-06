@@ -9,7 +9,9 @@ export default function Header() {
         { label: "Home", link: "/" },
         { label: "ABOUT", link: "/about" },
         { label: "BLOG", link: "/blog" },
-        { label: "SHOP", link: "/shop" }
+        { label: "SHOP", link: "/shop" },
+        { label: "Login", link: "/login" },
+        { label: "Sign Up", link: "/signup" }
     ];
 
     return (
