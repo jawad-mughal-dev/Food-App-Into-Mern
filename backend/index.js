@@ -30,6 +30,7 @@ app.use(express.json());
 app.use("/api", require("./Routes/CreateUser"))
 // this routers are used for the login  user  
 app.use("/api", require("./Routes/loginUser"))
+app.use("/api", require("./Routes/DisplayData"))
 
 // this code for the server testing or running something like that
 app.listen(port, () => {
